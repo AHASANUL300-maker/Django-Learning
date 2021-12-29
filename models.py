@@ -14,15 +14,15 @@ class Film(models. Model):
 class FilmRatingComment(models.Model):
     film = models.ForeignKey(Film, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    Rating = models.IntegerField()
-    Comment = models.TextField()
+    rating = models.IntegerField()
+    comment = models.TextField()
 
 
 class Crew(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     film = models.ForeignKey(Film, on_delete=models.CASCADE)
     profession = models.ForeignKey(Profession, on_delete=models.CASCADE)
-    Film_Char_Name = models.CharField(max_length= 100)
+    film_Char_Name = models.CharField(max_length= 100)
 
 
 class FilmGenre(models.Model):
@@ -47,11 +47,10 @@ class Media(models. Model):
 
 
 class Profile(AbstractUser):
-    User_Name = models.CharField(max_length= 50)
-    User_Email = models.EmailField(max_length=100)
-    User_Password = models.CharField(max_length=250)
+    user_name = models.CharField(max_length= 50)
+    user_email = models.EmailField(max_length=100)
+    user_password = models.CharField(max_length=250)
     birth_date = models.DateField(null=True, blank=True)
-    age = models.IntegerField()
     sex = models.CharField(max_length=20)
 
 
