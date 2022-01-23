@@ -1,28 +1,55 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, User
-from django import forms
+from django.contrib.auth.models import User
 
-# Create your models here.
 
-class Film(models. Model):
-    title = models.CharField(max_length=100)
+
+""" Details of the Film """
+
+
+class Film(models.Model):
+    title = models.CharField(max_length=250)
     media = models.ForeignKey(Media, on_delete=models.CASCADE)
     film_rate_comment = models.ForeignKey(FilmRatingComment, on_delete=models.CASCADE)
-    crew = models.ForeignKey(Crew, on_delete=models.CASCADE)
+    cast = models.ForeignKey(Cast, on_delete=models.CASCADE)
+
+
+""" Details about the Cast of the film"""
+
+
+class Cast(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    film = models.ForeignKey(Film, on_delete=models.CASCADE)
+    profession = models.ForeignKey(Profession, on_delete=models.CASCADE)
+    film_characer_name = models.CharField(max_length=70)
+
+
+""" Film Rating & Comments """
 
 
 class FilmRatingComment(models.Model):
     film = models.ForeignKey(Film, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    rating = models.IntegerField()
-    comment = models.TextField()
+    rating = models.PositiveIntegerField()
+    comment = models.TextField(max_length=1000)
 
 
-class Crew(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+""" Media """
+
+
+class Media(models.Model):
     film = models.ForeignKey(Film, on_delete=models.CASCADE)
-    profession = models.ForeignKey(Profession, on_delete=models.CASCADE)
-    film_Char_Name = models.CharField(max_length= 100)
+    image = models.ImageField(upload_to=None)
+    video = models.FileField(upload_to=None)
+
+
+""" Genre Name """
+
+
+class Genre(models.Model):
+    name = models.CharField(max_length=70)
+
+
+"""  Film Genre """
 
 
 class FilmGenre(models.Model):
@@ -30,43 +57,6 @@ class FilmGenre(models.Model):
     film = models.ForeignKey(Film, on_delete=models.CASCADE)
 
 
-class Profession(forms.Form):
-    role = ('Actor', 'Actress', 'Director', 'Producer', 'Writer', 'Editor')
-    prof = forms.ChoiceField(choices= role)
-
-
-class Genre(forms.Form):
-    name = ('Action', 'Thriller', 'Romance', 'Horror', 'Fantasy', 'Crime')
-    genre = forms.ChoiceField(choices= name)
-
-
-class Media(models. Model):
-    videos = models.FileField(upload_to='videos uploaded', null=True)
-    image = models.ImageField(upload_to='image uploaded', null=True)
-    film = models.ForeignKey(Film, on_delete=models.CASCADE, )
-
-
-class Profile(AbstractUser):
-    user_name = models.CharField(max_length= 50)
-    user_email = models.EmailField(max_length=100)
-    user_password = models.CharField(max_length=250)
-    birth_date = models.DateField(null=True, blank=True)
-    sex = models.CharField(max_length=20)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+class Profession(models.Model):
+    name = models.CharField(max_length=70)
 
